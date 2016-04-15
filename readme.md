@@ -24,7 +24,7 @@ If you already use composer into your project, then the required libraries will 
 Other way you'll have to include autoloader into your php file:
 
 ```php
-require_once 'vendor/autoload.php';
+require_once '/path/to/vendor/autoload.php';
 ```
 
 First step is to create a Configuration class that will implement `Kisphp\MailConfigInterface`.
@@ -34,7 +34,7 @@ First step is to create a Configuration class that will implement `Kisphp\MailCo
 
 class MailConfig implements Kisphp\MainConfigInterface
 {
-    // create here methods declared in interface
+    // create here methods required by interface
 }
 ```
 
@@ -68,11 +68,18 @@ To change the transport type you'll have to extend the createMailTransport metho
 ```php
 <?php
 
-class ProjectMessenger extends Kisphp\Mail\Messenger
+use Kisphp\Mail\Messenger;
+
+class ProjectMessenger extends Messenger
 {
+    /**
+     * @return $this
+     */
     protected function createMailTransport()
     {
         $this->transport = \Swift_MailTransport::newInstance();
+        
+        return $this;
     }
 }
 
