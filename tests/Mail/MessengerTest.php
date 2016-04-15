@@ -46,4 +46,19 @@ class MessengerTest extends \PHPUnit_Framework_TestCase
         $this->assertSame($messageBody, $swiftMessage->getBody());
         $this->assertArrayHasKey('test@example.com', $swiftMessage->getTo());
     }
+
+    /**
+     * @expectedException \Swift_TransportException
+     */
+    public function test_sendingEmail()
+    {
+        $subject = 'subject';
+        $messageBody = 'my test <b>message</b>';
+
+        $this->messenger->createMailMessage([
+            'test@example.com' => 'name',
+        ], $subject, $messageBody);
+
+        $this->messenger->send();
+    }
 }
