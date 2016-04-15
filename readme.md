@@ -1,5 +1,13 @@
 # Kisphp Simple mailer
 
+[![Build Status](https://travis-ci.org/kisphp/simple-mail.svg?branch=master)](https://travis-ci.org/kisphp/simple-mail)
+[![codecov.io](https://codecov.io/github/kisphp/simple-mail/coverage.svg?branch=master)](https://codecov.io/github/kisphp/simple-mail?branch=master)
+
+[![Latest Stable Version](https://poser.pugx.org/kisphp/simple-mail/v/stable)](https://packagist.org/packages/kisphp/simple-mail)
+[![Total Downloads](https://poser.pugx.org/kisphp/simple-mail/downloads)](https://packagist.org/packages/kisphp/simple-mail)
+[![License](https://poser.pugx.org/kisphp/simple-mail/license)](https://packagist.org/packages/kisphp/simple-mail)
+[![Monthly Downloads](https://poser.pugx.org/kisphp/simple-mail/d/monthly)](https://packagist.org/packages/kisphp/simple-mail)
+
 Quick send emails with swift mailer for your website with a very simple implementation.
 By default is configured to send through google.
 
