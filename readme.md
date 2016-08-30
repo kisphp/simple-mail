@@ -27,37 +27,90 @@ Other way you'll have to include autoloader into your php file:
 require_once '/path/to/vendor/autoload.php';
 ```
 
-First step is to create a Configuration class that will implement `Kisphp\MailConfigInterface`.
+First step you need to do, is to create a Configuration class that will implement `Kisphp\Mail\MailConfigInterface;`.
 
 ```php
 <?php
 
-class MailConfig implements Kisphp\MainConfigInterface
+namespace Demo;
+
+use Kisphp\Mail\MailConfigInterface;
+
+class DemoMailConfig implements MailConfigInterface
 {
-    // create here methods required by interface
+    public function getHost()
+    {
+        return 'ssl://smtp.gmail.com';
+    }
+
+    public function getPort()
+    {
+        return 465;
+    }
+
+    public function getSenderUsername()
+    {
+        return 'your-email-address@gmail.com';
+    }
+
+    public function getSenderPassword()
+    {
+        return 'your account password';
+    }
+
+    public function getMailEncryptionType()
+    {
+        return null;
+    }
+
+    public function getFromEmail()
+    {
+        return 'no-reply@example.com';
+    }
+
+    public function getFromName()
+    {
+        return 'My website';
+    }
 }
 ```
 
-Next you'll need to create Messenger object:
+Next you'll need to create extend `AbstractMailerFactory` class to use your configuration:
+
+```php
+class DemoMailerFactory extends AbstractMailerFactory
+{
+    /**
+     * @return DemoMailConfig
+     */
+    public function createMailConfig()
+    {
+        return new DemoMailConfig();
+    }
+}
+```
+
+And from here you can start to use it:
 
 ```php
 <?php
 
-use Kisphp\Mail\Messenger;
+$messenger = DemoMailerFactory::createMailer();
 
-$config = new MailConfig();
-$messenger = new Messenger($config);
-
+// recipients
 $recipients = [
     'user_1@example.com' => 'User name 1',
     'user_2@example.com' => 'User name 2',
 ];
 
-// create message
-$messenger->createMailMessage($recipients, $subject, $messageBody);
+$subject = 'Testing mail';
+$htmlMessage = 'this is my <b>message</b> for you';
 
-// send the message (will return number of emails sent)
-$messenger->send();
+// compose email
+$messenger->createMailMessage($recipients, $subject, $htmlMessage);
+
+// send the email and get the number of how many emails were sent
+$emailsSent = $messenger->send();
 
 ```
 
@@ -80,6 +133,22 @@ class ProjectMessenger extends Messenger
         $this->transport = \Swift_MailTransport::newInstance();
         
         return $this;
+    }
+}
+
+class DemoMailerFactory extends AbstractMailerFactory
+{
+    
+    // createMailConfig method here
+    
+    /**
+     * @param MailConfigInterface $config
+     *
+     * @return MessengerInterface
+     */
+    public function createMessenger(MailConfigInterface $config)
+    {
+        return new ProjectMessenger($config);
     }
 }
 

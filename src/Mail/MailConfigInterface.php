@@ -5,8 +5,8 @@ namespace Kisphp\Mail;
 interface MailConfigInterface
 {
     /**
-     * smtp.gmail.com
      * mail.example.com
+     * ssl://smtp.gmail.com
      *
      * @return string
      */
