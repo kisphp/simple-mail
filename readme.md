@@ -32,7 +32,9 @@ First step is to create a Configuration class that will implement `Kisphp\MailCo
 ```php
 <?php
 
-class MailConfig implements Kisphp\MainConfigInterface
+use Kisphp\Mail\MailConfigInterface;
+
+class MailConfig implements MailConfigInterface
 {
     // create here methods required by interface
 }
@@ -43,10 +45,9 @@ Next you'll need to create Messenger object:
 ```php
 <?php
 
-use Kisphp\Mail\Messenger;
+use Kisphp\Mail\DemoMailerFactory;
 
-$config = new MailConfig();
-$messenger = new Messenger($config);
+$messenger = DemoMailerFactory::createMailer();
 
 $recipients = [
     'user_1@example.com' => 'User name 1',

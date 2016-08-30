@@ -2,7 +2,7 @@
 
 namespace Kisphp\Mail;
 
-class Messenger
+class Messenger implements MessengerInterface
 {
     const MAIL_MESSAGE_TYPE = 'text/html';
 

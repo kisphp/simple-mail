@@ -4,6 +4,7 @@ namespace Test\Mail;
 
 use Test\Mail\Moks\MockMailConfig;
 use Test\Mail\Moks\MockMessenger;
+use Test\Mail\Moks\MockMailFactory;
 
 class MessengerTest extends \PHPUnit_Framework_TestCase
 {
@@ -19,8 +20,7 @@ class MessengerTest extends \PHPUnit_Framework_TestCase
 
     public function setUp()
     {
-        $this->config = new MockMailConfig();
-        $this->messenger = new MockMessenger($this->config);
+        $this->messenger = MockMailFactory::createMailer();
     }
 
     /**
@@ -36,15 +36,29 @@ class MessengerTest extends \PHPUnit_Framework_TestCase
         $subject = 'subject';
         $messageBody = 'my test <b>message</b>';
 
-        $this->messenger->createMailMessage([
-            'test@example.com' => 'name',
-        ], $subject, $messageBody);
+        $swiftMessage = $this->createSwiftMessager($subject, $messageBody);
 
-        $swiftMessage = $this->messenger->getMessage();
+        $this->assertArrayHasKey('test@example.com', $swiftMessage->getTo());
+    }
+
+    public function testMessageBody()
+    {
+        $subject = 'subject';
+        $messageBody = 'my test <b>message</b>';
+
+        $swiftMessage = $this->createSwiftMessager($subject, $messageBody);
+
+        $this->assertSame($messageBody, $swiftMessage->getBody());
+    }
+
+    public function testMessageSubject()
+    {
+        $subject = 'subject';
+        $messageBody = 'my test <b>message</b>';
+
+        $swiftMessage = $this->createSwiftMessager($subject, $messageBody);
 
         $this->assertSame($subject, $swiftMessage->getSubject());
-        $this->assertSame($messageBody, $swiftMessage->getBody());
-        $this->assertArrayHasKey('test@example.com', $swiftMessage->getTo());
     }
 
     /**
@@ -60,5 +74,26 @@ class MessengerTest extends \PHPUnit_Framework_TestCase
         ], $subject, $messageBody);
 
         $this->messenger->send();
+    }
+
+    /**
+     * @param string $subject
+     * @param string $messageBody
+     *
+     * @return \Swift_Message
+     */
+    protected function createSwiftMessager($subject, $messageBody)
+    {
+        $this->messenger->createMailMessage(
+            [
+                'test@example.com' => 'name',
+            ],
+            $subject,
+            $messageBody
+        );
+
+        $swiftMessage = $this->messenger->getMessage();
+
+        return $swiftMessage;
     }
 }
