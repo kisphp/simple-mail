@@ -5,7 +5,7 @@ namespace Kisphp\Mail;
 abstract class AbstractMailerFactory
 {
     /**
-     * @return Messenger
+     * @return MessengerInterface
      */
     public static function createMailer()
     {
@@ -23,7 +23,7 @@ abstract class AbstractMailerFactory
     /**
      * @param MailConfigInterface $config
      *
-     * @return Messenger
+     * @return MessengerInterface
      */
     public function createMessenger(MailConfigInterface $config)
     {

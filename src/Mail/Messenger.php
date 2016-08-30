@@ -42,7 +42,7 @@ class Messenger implements MessengerInterface
      * @param string $subject
      * @param string $htmlMessage
      *
-     * @return $this
+     * @return MessengerInterface
      */
     public function createMailMessage(array $arrayEmailName, $subject, $htmlMessage)
     {
@@ -72,7 +72,15 @@ class Messenger implements MessengerInterface
     }
 
     /**
-     * @return $this
+     * @return \Swift_Message
+     */
+    public function getMessage()
+    {
+        return $this->message;
+    }
+
+    /**
+     * @return MessengerInterface
      */
     protected function createMailTransport()
     {
@@ -91,20 +99,12 @@ class Messenger implements MessengerInterface
     }
 
     /**
-     * @return $this
+     * @return MessengerInterface
      */
     protected function createMailer()
     {
         $this->mailer = \Swift_Mailer::newInstance($this->transport);
 
         return $this;
-    }
-
-    /**
-     * @return \Swift_Message
-     */
-    public function getMessage()
-    {
-        return $this->message;
     }
 }
