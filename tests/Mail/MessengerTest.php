@@ -2,11 +2,12 @@
 
 namespace Test\Mail;
 
+use PHPUnit\Framework\TestCase;
 use Test\Mail\Moks\MockMailConfig;
 use Test\Mail\Moks\MockMessenger;
 use Test\Mail\Moks\MockMailFactory;
 
-class MessengerTest extends \PHPUnit_Framework_TestCase
+class MessengerTest extends TestCase
 {
     /**
      * @var MockMailConfig
