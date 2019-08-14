@@ -11,8 +11,8 @@
     ],
     "minimum-stability": "stable",
     "require": {
-        "php": ">=5.5.9",
-        "swiftmailer/swiftmailer": "~4.3"
+        "php": ">=7.1",
+        "swiftmailer/swiftmailer": "~6.0"
     },
     "require-dev": {
         "friendsofphp/php-cs-fixer": "~1.11.0",
